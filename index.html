@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>{{ PRODUCT_NAME }}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body { margin: 0; background: #000; overflow: hidden; }
+    canvas { display: block; }
+  </style>
+</head>
+<body>
+  <canvas id="unity-canvas"></canvas>
+  <script>
+    var buildUrl = "{{ BUILD_URL }}";
+    var loaderUrl = buildUrl + "/{{ LOADER_FILENAME }}";
+    var config = {
+      dataUrl: buildUrl + "/{{ DATA_FILENAME }}",
+      frameworkUrl: buildUrl + "/{{ FRAMEWORK_FILENAME }}",
+      codeUrl: buildUrl + "/{{ CODE_FILENAME }}",
+      companyName: "{{ COMPANY_NAME }}",
+      productName: "{{ PRODUCT_NAME }}",
+      productVersion: "{{ PRODUCT_VERSION }}"
+    };
+
+    var unityInstance = null;
+
+    var script = document.createElement("script");
+    script.src = loaderUrl;
+    script.onload = () => {
+      createUnityInstance(document.querySelector("#unity-canvas"), config).then((instance) => {
+        unityInstance = instance;
+
+        // Funcția globală wallet connect (funcționează cu .jslib)
+        window.ConnectWalletJS = async function () {
+          if (typeof window.ethereum === 'undefined') {
+            alert("No wallet found.");
+            return;
+          }
+          try {
+            const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+            const address = accounts[0];
+            unityInstance.SendMessage("GameManager", "OnWalletConnected", address);
+          } catch (e) {
+            console.error("Wallet error", e);
+          }
+        };
+
+      });
+    };
+    document.body.appendChild(script);
+  </script>
+</body>
+</html>
