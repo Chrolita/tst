@@ -50,9 +50,9 @@
       var loaderUrl = buildUrl + "/tst.loader.js";
       var config = {
         arguments: [],
-        dataUrl: buildUrl + "/tst.data.gz",
-        frameworkUrl: buildUrl + "/tst.framework.js.gz",
-        codeUrl: buildUrl + "/tst.wasm.gz",
+        dataUrl: buildUrl + "/tst.data",
+        frameworkUrl: buildUrl + "/tst.framework.js",
+        codeUrl: buildUrl + "/tst.wasm",
         streamingAssetsUrl: "StreamingAssets",
         companyName: "DefaultCompany",
         productName: "My project (2)",
@@ -92,8 +92,9 @@
       document.body.appendChild(script);
     </script>
 
-    <!-- 🔗 Aici e codul JS pentru conectare wallet -->
+    <!-- ✅ Adaugă wallet-bridge.js aici -->
     <script src="wallet-bridge.js"></script>
 
   </body>
 </html>
+
