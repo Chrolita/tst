@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Unity Web Player | Abstar</title>
+    <title>Unity Web Player | My project (2)</title>
     <link rel="shortcut icon" href="TemplateData/favicon.ico">
     <link rel="stylesheet" href="TemplateData/style.css">
   </head>
@@ -20,7 +20,7 @@
       <div id="unity-footer">
         <div id="unity-logo-title-footer"></div>
         <div id="unity-fullscreen-button"></div>
-        <div id="unity-build-title"></div>
+        <div id="unity-build-title">My project (2)</div>
       </div>
     </div>
 
@@ -50,12 +50,12 @@
       var loaderUrl = buildUrl + "/tst.loader.js";
       var config = {
         arguments: [],
-        dataUrl: buildUrl + "/tst.data",
-        frameworkUrl: buildUrl + "/tst.framework.js",
-        codeUrl: buildUrl + "/tst.wasm",
+        dataUrl: buildUrl + "/tst.data.gz",
+        frameworkUrl: buildUrl + "/tst.framework.js.gz",
+        codeUrl: buildUrl + "/tst.wasm.gz",
         streamingAssetsUrl: "StreamingAssets",
         companyName: "DefaultCompany",
-        productName: "testpoker",
+        productName: "My project (2)",
         productVersion: "0.1",
         showBanner: unityShowBanner,
       };
@@ -84,27 +84,6 @@
           document.querySelector("#unity-fullscreen-button").onclick = () => {
             unityInstance.SetFullscreen(1);
           };
-
-          // ✅ Funcția globală care va fi apelată din C# cu DllImport("__Internal")
-          window.ConnectWalletJS = async function () {
-            if (typeof window.ethereum === 'undefined') {
-              alert("No wallet detected. Please install MetaMask or Abstract Wallet.");
-              return;
-            }
-
-            try {
-              const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-              const address = accounts[0];
-              console.log("Wallet connected:", address);
-
-              // Trimite adresa în Unity (GameObject: GameManager, Method: OnWalletConnected)
-              unityInstance.SendMessage("GameManager", "OnWalletConnected", address);
-            } catch (error) {
-              console.error("Wallet connection failed:", error);
-              alert("Failed to connect wallet. See console.");
-            }
-          };
-
         }).catch((message) => {
           alert(message);
         });
@@ -112,5 +91,9 @@
 
       document.body.appendChild(script);
     </script>
+
+    <!-- 🔗 Aici e codul JS pentru conectare wallet -->
+    <script src="wallet-bridge.js"></script>
+
   </body>
 </html>
